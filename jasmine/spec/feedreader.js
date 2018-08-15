@@ -96,7 +96,7 @@ $(function() {
     })
 
     it('works properly', function(){
-        const feed = document.querySelectorAll('.parent .child');
+        const feed = document.querySelector('.feed').querySelectorAll('.entry');
         expect(feed).toBeDefined();
     });
         
