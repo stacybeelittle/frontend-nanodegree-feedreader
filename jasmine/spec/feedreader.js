@@ -35,7 +35,7 @@ $(function() {
     it('URL is defined', function(){
         for(let feed of allFeeds){
             expect(feed.url).toBeDefined();
-            expect(feed.length).not.toBe(0);
+            expect(feed.url.length).not.toBe(0);
         }
     });
 
@@ -47,7 +47,7 @@ $(function() {
     it('name is defined', function(){
         for(let feed of allFeeds){
             expect(feed.name).toBeDefined();
-            expect(feed.length).not.toBe(0);
+            expect(feed.name.length).not.toBe(0);
         }
     })
     });
@@ -96,8 +96,8 @@ $(function() {
     })
 
     it('works properly', function(){
-        const feed = document.querySelector('.feed');
-        expect(feed.children.length > 0).toBe(true);
+        const feed = document.querySelectorAll('.parent .child');
+        expect(feed).toBeDefined();
     });
         
     })   
@@ -105,26 +105,26 @@ $(function() {
     /* Test suite for New Feed*/
 
     describe('New Feed Selection', function(){
-        const feed = document.querySelector('.feed');
-        const content = [];
+        let firstLoad;
+        let secondLoad;
 
     /* A test that ensures when a new feed is loaded
      * by the loadFeed function that the content actually changes.
      */
 
     beforeEach(function(done){
-        loadFeed(0);
-        Array.from(feed.children).forEach(function(entry){
-            content.push(entry.innerText);
+        loadFeed(0, function(){
+        firstLoad = $('.feed').html();
+        loadFeed(1, function(){
+            secondLoad = $('.feed').html();
+            done();
         });
-        loadFeed(1,done);
-    })
-    it('new content loads', function(){
-        Array.from(feed.children).forEach(function(entry,index){
-
-        expect(entry.innerText[0] != content[0]).toBe(true);
         });
     });
-    })
 
+    it('new content loads', function(done){
+        expect(firstLoad).not.toEqual(secondLoad);
+        done();
+        });
+    });
 }());
